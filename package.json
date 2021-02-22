@@ -1,0 +1,26 @@
+{
+  "name": "bookmarkv2",
+  "version": "1.0.0",
+  "description": "Books tracking app",
+  "main": "/server/server.js",
+  "scripts": {
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\"  \"npm run client\""
+  },
+  "author": "Vladimir Slovo",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

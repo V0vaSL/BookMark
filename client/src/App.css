@@ -1,0 +1,46 @@
+/* Utils */
+
+@import url('https://fonts.googleapis.com/css2?family=Langar&family=Quicksand&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  height: 100vh;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+body {
+  background: #f5f4f4;
+  font-family: 'Quicksand', sans-serif;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #cae4db;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.navbar h1 {
+  color: #fff;
+  font-family: 'Langar', cursive;
+  font-size: 3rem;
+}

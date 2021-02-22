@@ -1,0 +1,10 @@
+// User Context
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const ADD_TO_LIST = 'ADD_TO_LIST';
+export const ADD_TO_LIST_FAILED = 'ADD_TO_LIST_FAILED';
+export const REMOVE_FROM_LIST = 'REMOVE_FROM_LIST';
+export const REMOVE_FROM_LIST_FAILED = 'REMOVE_FROM_LIST_FAILED';
