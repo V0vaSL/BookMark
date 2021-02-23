@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
-const { dataBase } = require('../config/db');
+const { dataBase } = require('../../config/db');
 
 // @route     POST auth/register
 // @desc      Register a user
@@ -64,7 +64,7 @@ router.post(
             console.log('jwt error');
             throw err;
           } else {
-            res.status(200).json({ token, email, firstName });
+            res.status(200).json({ token, email, firstName, lastName });
           }
         }
       );
@@ -96,7 +96,7 @@ router.post(
     const { email, password } = req.body;
     const db = dataBase();
     try {
-      let sql = `Select email,password FROM users WHERE email='${email}'`;
+      let sql = `Select email,firstName,lastName,password FROM users WHERE email='${email}'`;
       let user = await db.query(sql);
       if (user.length !== 1) {
         return res.status(400).json({ msg: 'Invalid Credentials' });
@@ -112,8 +112,9 @@ router.post(
         },
       };
 
+      const { firstName, lastName } = user[0];
       //Load user's library
-      sql = `SELECT firstName,title,authors,publisher,publishedDate,description,pageCount,categories,imageLink,avarageRating,readingList FROM users NATURAL JOIN reading NATURAL JOIN books WHERE email = '${email}'`;
+      sql = `SELECT bookId,firstName,title,authors,publisher,publishedDate,description,pageCount,categories,imageLink,averageRating,readingList FROM users NATURAL JOIN reading NATURAL JOIN books WHERE email = '${email}'`;
       let data = await db.query(sql);
 
       //send token and library
@@ -127,7 +128,7 @@ router.post(
           if (err) {
             throw err;
           } else {
-            res.json({ token, data, email });
+            res.json({ token, data, email, firstName, lastName });
           }
         }
       );

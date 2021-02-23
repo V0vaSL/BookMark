@@ -1,7 +1,7 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
-const { dataBase } = require('../config/db');
+const { dataBase } = require('../../config/db');
 const auth = require('../middleware/auth');
 
 const MAX_NUM_OF_BOOKS = 6;
@@ -23,8 +23,8 @@ router.post(
     //Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error('validation error');
-      return res.status(500).json({ errors: errors.array() });
+      console.error(errors.array()[0].msg);
+      return res.status(500).json({ msg: errors.array()[0].msg });
     }
 
     const db = dataBase();
@@ -48,7 +48,7 @@ router.post(
         '${req.body.title}',
         '${req.body.authors.join(',')}',
         '${req.body.publisher ? req.body.publisher : null}',
-        ${req.body.publishedDate ? req.body.publishedDate : null},
+        '${req.body.publishedDate ? req.body.publishedDate : null}',
         '${req.body.description ? req.body.description : null}',
         ${req.body.pageCount ? req.body.pageCount : null},
         '${req.body.categories ? req.body.categories.join(',') : null}',
@@ -68,7 +68,7 @@ router.post(
           req.user.email
         }'`;
         await db.query(sql);
-        return res.status(200).json({ msg: 'Books added' });
+        return res.status(200).json({ msg: 'Book added' });
       } else {
         //check if the user has it in one of his reading lists
         sql = `SELECT bookId,readingList FROM reading WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
@@ -126,14 +126,14 @@ router.post(
     //Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error('validation error');
-      return res.status(500).json({ errors: errors.array() });
+      console.error(errors.array());
+      return res.status(500).json({ msg: errors.array()[0].msg });
     }
 
     const db = dataBase();
     try {
       //try to remove the book from reading.
-      let sql = `DELETE FROM reading WHERE bookId='${req.body.bookId}'`;
+      let sql = `DELETE FROM reading WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
       let result = await db.query(sql);
       if (result.length !== 0) {
         //decrement the numOfBooks of user

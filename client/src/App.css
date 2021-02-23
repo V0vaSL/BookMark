@@ -1,19 +1,16 @@
-/* Utils */
-
 @import url('https://fonts.googleapis.com/css2?family=Langar&family=Quicksand&display=swap');
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Utils */
 #root {
   height: 100vh;
 }
-
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -25,22 +22,243 @@ body {
 li {
   list-style: none;
 }
-
 a {
   text-decoration: none;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  outline-color: #cae4db;
+}
+
+.btn {
+  background: #cae4db;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover {
+  opacity: 0.6;
 }
 
 /* Navbar */
 .navbar {
   background-color: #cae4db;
   padding: 1rem;
+}
+.navbar .container {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-between;
 }
 
 .navbar h1 {
   color: #fff;
   font-family: 'Langar', cursive;
   font-size: 3rem;
+}
+
+.navbar ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar ul li {
+  margin-left: 1.3rem;
+}
+.navbar ul li a {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.navbar ul li a:hover {
+  opacity: 0.5;
+}
+
+.user-id {
+  margin-left: 1.5rem;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+/* Alert */
+.alert {
+  background-color: #ff85a2;
+  text-align: center;
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+}
+
+/* Home */
+.home {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.home .search-box {
+  margin: 3rem;
+  width: 100%;
+}
+
+.home .search-box form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.home .search-box form .search-field {
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 2px;
+  border: none;
+}
+
+.home .search-box form .search-btn {
+  border-radius: 2px;
+  border: none;
+  margin: 0 0.3rem;
+  padding: 0.5rem;
+  width: 10%;
+  cursor: pointer;
+}
+
+.home .search-box form .search-btn:hover {
+  background-color: #cae4db;
+}
+
+/* BookGrid */
+
+.books-grid {
+  padding: 3rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Book Grid Item */
+.book-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #fff;
+  margin: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.book-grid-item img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.book-grid-item img {
+  border-radius: 10px;
+}
+
+/* Book page */
+
+.book-page {
+  margin-top: 5rem;
+}
+
+.book-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 2rem;
+}
+
+.description {
+  padding: 2rem;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#readingList {
+  margin: 0.5rem;
+  padding: 0.4rem 1.5rem;
+  border-radius: 3px;
+  background: #cae4db;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Reading List */
+.reading-list {
+  padding: 1rem;
+}
+.reading-list h2 {
+  font-size: 1rem;
+  margin: 1rem;
+}
+
+.reading-list-books {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+/* Library item */
+.book-grid-item .btn {
+  margin-top: 0.3rem;
+  padding: 0.5rem 2rem;
+}
+
+/* Register & Login */
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 2rem;
+  padding: 3rem;
+}
+
+.form p {
+  text-align: center;
+}
+
+.form form {
+  width: 40%;
+}
+.form a {
+  color: #666;
+}
+.form a:hover {
+  color: #cae4db;
+}
+
+.btn-container {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-element label {
+  margin: 0.3rem 0;
+}
+.form-element input {
+  display: block;
+  border: none;
+  width: 100%;
+  padding: 0.3rem;
+  margin: 0.3rem 0;
+  border-radius: 2px;
+  font-family: 'Quicksand', sans-serif;
 }
