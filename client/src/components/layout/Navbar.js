@@ -24,64 +24,48 @@ const Navbar = () => {
 
   const auth = (
     <Fragment>
-      <ul>
-        <li>
-          <Link to='/' onClick={onClick}>
-            <h1>
-              <i className='far fa-bookmark'></i> BookMark
-            </h1>
-          </Link>
-        </li>
-        <li>
+      <div className='logo-container'>
+        <Link to='/' onClick={onClick}>
+          <h1 className='logo'>
+            <i className='far fa-bookmark'></i> BookMark
+          </h1>
+        </Link>
+      </div>
+      <div className='links'>
+        <div className='nav'>
           <Link to='/' onClick={onClick}>
             Search
           </Link>
-        </li>
-        <li>
           <Link to='/library/' onClick={onClick}>
             My Library
           </Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
+        </div>
+        <div className='info-logout'>
           <p className='user-id'>
             {' '}
             Hello, {firstName} {lastName}
           </p>
-        </li>
-        <li>
           <Link to='/login' onClick={onClick}>
             Logout <i className='fas fa-sign-out-alt'></i>
           </Link>
-        </li>
-      </ul>
+        </div>
+      </div>
     </Fragment>
   );
-  const notAuth = (
-    <ul>
-      <li>
-        <Link to='/' onClick={onClick}>
-          <h1>
-            <i className='far fa-bookmark'></i> BookMark
-          </h1>
-        </Link>
-      </li>
-      <li>
-        <Link to='/register' onClick={onClick}>
-          Register
-        </Link>
-      </li>
-      <li>
-        <Link to='/login' onClick={onClick}>
-          Login
-        </Link>
-      </li>
-    </ul>
-  );
+
   return (
-    <div className='navbar '>
-      <div className='container'>{isAuthenticated ? auth : notAuth}</div>
+    <div className='navbar'>
+      <div className='container'>
+        {isAuthenticated ? (
+          auth
+        ) : (
+          <Link to='/' onClick={onClick}>
+            <h1 className='logo'>
+              <i className='far fa-bookmark'></i> BookMark
+            </h1>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };

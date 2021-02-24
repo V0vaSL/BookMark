@@ -44,7 +44,7 @@ router.post(
       const salt = await bcrypt.genSalt(10);
       password = await bcrypt.hash(password, salt);
 
-      sql = `INSERT INTO users(email,firstName,lastName,password,numOfBooks) values('${email}','${firstName}','${lastName}','${password}',0)`;
+      sql = `INSERT INTO users(email,firstName,lastName,password,numOfBooks,registerDate) values('${email}','${firstName}','${lastName}','${password}',0,now())`;
       await db.query(sql);
 
       const payload = {

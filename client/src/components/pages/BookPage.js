@@ -25,7 +25,6 @@ const BookPage = () => {
   const onClick = (e) => {
     if (e.target.value === 'Add') {
       const readingList = document.querySelector('#readingList').value;
-
       addBookToUser(readingList, {
         bookId,
         description,
@@ -47,21 +46,37 @@ const BookPage = () => {
   return (
     <div className='book-page'>
       <div className='book-info-container'>
-        <img src={imageLink} alt='Book cover' />
+        {imageLink ? (
+          <img src={imageLink} alt='Book cover' />
+        ) : (
+          <i className='far fa-bookmark fa-9x'></i>
+        )}
         <div className='book-info'>
           <h1>{title ? title : 'N/A'}</h1>
           <br />
-          <p>Authors: {authors ? authors : 'N/A'} </p>
-          <p>Publisher: {publisher ? publisher : 'N/A'}</p>
           <p>
-            Published: {publishedDate ? publishedDate.substring(0, 4) : 'N/A'}
+            <strong>Authors: </strong> {authors ? authors : 'N/A'}{' '}
           </p>
-          <p>Pages: {pageCount ? pageCount : 'N/A'}</p>
-          <p>Categories: {categories ? categories : 'N/A'}</p>
-          <p>Rating: {averageRating ? averageRating : 'N/A'}</p>
+          <p>
+            <strong>Publisher: </strong> {publisher ? publisher : 'N/A'}
+          </p>
+          <p>
+            <strong>Published: </strong>
+
+            {publishedDate ? publishedDate.substring(0, 4) : 'N/A'}
+          </p>
+          <p>
+            <strong>Pages: </strong> {pageCount ? pageCount : 'N/A'}
+          </p>
+          <p>
+            <strong>Categories: </strong> {categories ? categories : 'N/A'}
+          </p>
+          <p>
+            <strong>Rating: </strong> {averageRating ? averageRating : 'N/A'}
+          </p>
         </div>
       </div>
-      <div className='links'>
+      <div className='book-links'>
         <input type='submit' className='btn' onClick={onClick} value='Back' />
         <select name='readingList' id='readingList'>
           <option value='readingList'>Reading</option>
@@ -72,7 +87,7 @@ const BookPage = () => {
       </div>
       <div className='description'>
         <p>
-          Description: <br />
+          <strong>Description:</strong> <br />
           <br /> {description ? description : 'N/A'}
         </p>
       </div>

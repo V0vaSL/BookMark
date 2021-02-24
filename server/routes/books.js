@@ -6,6 +6,24 @@ const auth = require('../middleware/auth');
 
 const MAX_NUM_OF_BOOKS = 6;
 
+// @route Get
+// @desc  get user's book
+// @access private
+
+router.get('/get', auth, async (req, res) => {
+  const db = dataBase();
+  try {
+    sql = `SELECT bookId,firstName,title,authors,publisher,publishedDate,description,pageCount,categories,imageLink,averageRating,readingList FROM users NATURAL JOIN reading NATURAL JOIN books WHERE email = '${req.user.email}'`;
+    let data = await db.query(sql);
+    return res.status(200).json({ books: data });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: 'Server Error' });
+  } finally {
+    db.close();
+  }
+});
+
 // @route POST
 // @desc  Adds a book to a list
 // @access private
@@ -34,7 +52,24 @@ router.post(
       let result = await db.query(sql);
       let bookCount = result[0].numOfBooks;
       if (bookCount == MAX_NUM_OF_BOOKS) {
-        return res.status(403).json({ msg: 'No more books allowed' });
+        //check if the user has it in one of his reading lists
+        sql = `SELECT bookId,readingList FROM reading WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
+        result = await db.query(sql);
+        if (result.length !== 0) {
+          if (result[0].readingList === req.body.readingList) {
+            //if in the same list as we try to add, return error
+            return res
+              .status(403)
+              .json({ msg: 'Book already in that reading list' });
+          } else {
+            //if different list update the row in reading table
+            sql = `UPDATE reading SET readingList = '${req.body.readingList}' WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
+            await db.query(sql);
+            return res.status(200).json({ msg: 'Reading list updated' });
+          }
+        } else {
+          return res.status(403).json({ msg: 'No more books allowed' });
+        }
       }
 
       //check if the book exist in the database
@@ -49,7 +84,7 @@ router.post(
         '${req.body.authors.join(',')}',
         '${req.body.publisher ? req.body.publisher : null}',
         '${req.body.publishedDate ? req.body.publishedDate : null}',
-        '${req.body.description ? req.body.description : null}',
+        "${req.body.description ? req.body.description : null}",
         ${req.body.pageCount ? req.body.pageCount : null},
         '${req.body.categories ? req.body.categories.join(',') : null}',
         ${req.body.averageRating ? req.body.averageRating : null},

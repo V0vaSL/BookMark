@@ -4,6 +4,7 @@ import UserContext from './UserContext';
 import UserReducer from './UserReducer';
 import AlertContext from '../alert/AlertContext';
 import setAuthToken from '../../utils/setAuthToken';
+import BookContext from '../book/BookContext';
 
 import {
   LOGIN_SUCCESS,
@@ -11,10 +12,11 @@ import {
   LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  ADD_TO_LIST,
   REMOVE_FROM_LIST,
-  REMOVE_FROM_LIST_FAILED,
+  GET_USER_BOOKS,
 } from '../types';
+
+const TIMEOUT = 3000;
 
 const UserState = (props) => {
   const initialState = {
@@ -28,18 +30,20 @@ const UserState = (props) => {
   };
   const [state, dispatch] = useReducer(UserReducer, initialState);
   const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlert } = alertContext;
+  const { setAlert, clearAlert, setInfo, clearInfo } = alertContext;
+  const bookContext = useContext(BookContext);
+  const { setLoading, clearLoading } = bookContext;
 
   /* -- Actions -- */
 
-  // Login
+  // ----  Login  ----
+
   const login = async (credentials) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-
     try {
       const res = await axios.post('/auth/login', credentials, config);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
@@ -50,12 +54,13 @@ const UserState = (props) => {
       dispatch({ type: LOGIN_FAIL });
       setTimeout(() => {
         clearAlert();
-      }, 5000);
+      }, TIMEOUT);
       return false;
     }
   };
 
-  // Register
+  //  ----  Register ----
+
   const register = async (credentials) => {
     const config = {
       headers: {
@@ -72,18 +77,42 @@ const UserState = (props) => {
       dispatch({ type: REGISTER_FAIL });
       setTimeout(() => {
         clearAlert();
-      }, 5000);
+      }, TIMEOUT);
       return false;
     }
   };
 
-  //Logout
+  // ----  Logout  -----
 
   const logout = async () => {
     dispatch({ type: LOGOUT });
   };
 
-  //Add book to user's list
+  // ---- Load users's books ----
+  const loadUserBooks = async (credentials) => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      let result = await axios.get('/books/get', credentials, config);
+      dispatch({ type: GET_USER_BOOKS, payload: result.data });
+    } catch (err) {
+      clearLoading();
+      setAlert(err.response.data.msg);
+      setTimeout(() => {
+        clearAlert();
+      }, TIMEOUT);
+      return false;
+    }
+  };
+
+  // ----  Add book to user's list  ----
+
   const addBookToUser = async (readingList, book) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
@@ -93,6 +122,7 @@ const UserState = (props) => {
         'Content-Type': 'application/json',
       },
     };
+    setLoading();
     try {
       let {
         bookId,
@@ -106,7 +136,12 @@ const UserState = (props) => {
         categories,
         averageRating,
       } = book;
-      await axios.post(
+
+      if (description[0] === '"' || description[0] === "'") {
+        description.substring(1, description.legnth - 1);
+      }
+
+      let res = await axios.post(
         '/books/add',
         {
           readingList,
@@ -123,14 +158,26 @@ const UserState = (props) => {
         },
         config
       );
-      dispatch({ type: ADD_TO_LIST, payload: { readingList, book } });
+      if (
+        res.data.msg === 'Reading list updated' ||
+        res.data.msg === 'Book added'
+      ) {
+        setInfo(res.data.msg);
+        loadUserBooks();
+        setTimeout(() => {
+          clearInfo();
+        }, TIMEOUT);
+      }
+
       clearAlert();
+      clearLoading();
       return true;
     } catch (err) {
+      clearLoading();
       setAlert(err.response.data.msg);
       setTimeout(() => {
         clearAlert();
-      }, 5000);
+      }, TIMEOUT);
       return false;
     }
   };
@@ -146,14 +193,22 @@ const UserState = (props) => {
       },
     };
     try {
-      await axios.post('/books/remove', { readingList, bookId }, config);
+      let res = await axios.post(
+        '/books/remove',
+        { readingList, bookId },
+        config
+      );
       dispatch({ type: REMOVE_FROM_LIST, payload: { readingList, bookId } });
+      setInfo(res.data.msg);
+      setTimeout(() => {
+        clearInfo();
+      }, TIMEOUT);
       return true;
     } catch (err) {
       setAlert(err.response.data.msg);
       setTimeout(() => {
         clearAlert();
-      }, 5000);
+      }, TIMEOUT);
       return false;
     }
   };
@@ -174,6 +229,7 @@ const UserState = (props) => {
         logout,
         addBookToUser,
         removeBookFromUser,
+        loadUserBooks,
       }}
     >
       {props.children}

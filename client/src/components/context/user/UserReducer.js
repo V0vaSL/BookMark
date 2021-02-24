@@ -5,9 +5,8 @@ import {
   LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  ADD_TO_LIST,
   REMOVE_FROM_LIST,
-  REMOVE_FROM_LIST_FAILED,
+  GET_USER_BOOKS,
 } from '../types';
 
 export default (state, action) => {
@@ -57,32 +56,15 @@ export default (state, action) => {
         readingList: [],
         completedList: [],
       };
-    case ADD_TO_LIST:
-      //Remove the book if it exists in other lists
-      let redl, wishl, compl;
-      if (action.payload.readingList !== 'readingList') {
-        redl = state['readingList'].filter(
-          (book) => book.bookId !== action.payload.book.bookId
-        );
-      }
-      if (action.payload.readingList !== 'wishList') {
-        wishl = state['wishList'].filter(
-          (book) => book.bookId !== action.payload.book.bookId
-        );
-      }
-      if (action.payload.readingList !== 'completedList') {
-        compl = state['completedList'].filter(
-          (book) => book.bookId !== action.payload.book.bookId
-        );
-      }
-      let addlist = state[action.payload.readingList];
-      addlist.push(action.payload.book);
+    case GET_USER_BOOKS:
+      let wishB = filterBooks(action.payload.books, 'wishList');
+      let readingB = filterBooks(action.payload.books, 'readingList');
+      let completedB = filterBooks(action.payload.books, 'completedList');
       return {
         ...state,
-        readingList: redl,
-        wishList: wishl,
-        completedList: compl,
-        [action.payload.readingList]: addlist,
+        wishList: wishB,
+        readingList: readingB,
+        completedList: completedB,
       };
     case REMOVE_FROM_LIST:
       let remList = state[action.payload.readingList].filter(

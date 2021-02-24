@@ -24,14 +24,24 @@ const BookState = (props) => {
   const [state, dispatch] = useReducer(BookReducer, initialState);
 
   /* -- Actions -- */
+  //Set loading
+  const setLoading = () => {
+    dispatch({ type: SET_LOADING });
+  };
+  //Set loading
+  const clearLoading = () => {
+    dispatch({ type: CLEAR_LOADING });
+  };
+
   //Get Books
   const getBooks = async (query) => {
     try {
-      dispatch({ type: SET_LOADING });
+      setLoading();
       let result = await axios.get(`/api/${query}`);
-      dispatch({ type: CLEAR_LOADING });
+      clearLoading();
       dispatch({ type: GET_BOOKS, payload: result.data });
     } catch (err) {
+      clearLoading();
       setAlert('Illegal query.');
       setTimeout(() => {
         clearAlert();
@@ -60,6 +70,8 @@ const BookState = (props) => {
         books: state.books,
         curBook: state.curBook,
         loading: state.loading,
+        setLoading,
+        clearLoading,
         getBooks,
         clearBooks,
         setCurrent,

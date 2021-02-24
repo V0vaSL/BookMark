@@ -31,18 +31,26 @@ const Search = () => {
         <input
           ref={text}
           type='text'
-          placeholder='Search for a book/author'
+          placeholder='Search for a book/author in English.'
           className='search-field'
         />
-        <input type='submit' value='Search' className='search-btn' />
-        {books.length !== 0 ? (
+        <div className='btns'>
           <input
             type='submit'
-            value='Clear'
-            className='search-btn'
-            onClick={onClick}
+            value='Search'
+            className={
+              books.length === 0 ? 'search-btn solo-btn' : 'search-btn srch-btn'
+            }
           />
-        ) : null}
+          {books.length !== 0 ? (
+            <input
+              type='submit'
+              value='Clear'
+              className='search-btn'
+              onClick={onClick}
+            />
+          ) : null}
+        </div>
       </form>
     </div>
   );

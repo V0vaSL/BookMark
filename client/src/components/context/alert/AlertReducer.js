@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { SET_ALERT, CLEAR_ALERT } from '../types';
+import { SET_ALERT, CLEAR_ALERT, SET_INFO, CLEAR_INFO } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -14,6 +14,18 @@ export default (state, action) => {
         ...state,
         err: false,
         errMsg: '',
+      };
+    case SET_INFO:
+      return {
+        ...state,
+        info: true,
+        infoMsg: action.payload,
+      };
+    case CLEAR_INFO:
+      return {
+        ...state,
+        info: false,
+        infoMsg: '',
       };
     default:
       return state;
