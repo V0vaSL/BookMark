@@ -122,7 +122,6 @@ const UserState = (props) => {
         'Content-Type': 'application/json',
       },
     };
-    setLoading();
     try {
       let {
         bookId,
@@ -158,22 +157,14 @@ const UserState = (props) => {
         },
         config
       );
-      if (
-        res.data.msg === 'Reading list updated' ||
-        res.data.msg === 'Book added'
-      ) {
-        setInfo(res.data.msg);
-        await loadUserBooks();
-        setTimeout(() => {
-          clearInfo();
-        }, TIMEOUT);
-      }
-
+      setInfo(res.data.msg);
+      await loadUserBooks();
+      setTimeout(() => {
+        clearInfo();
+      }, TIMEOUT);
       clearAlert();
-      clearLoading();
       return true;
     } catch (err) {
-      clearLoading();
       setAlert(err.response.data.msg);
       setTimeout(() => {
         clearAlert();
