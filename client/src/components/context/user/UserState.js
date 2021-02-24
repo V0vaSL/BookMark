@@ -163,7 +163,7 @@ const UserState = (props) => {
         res.data.msg === 'Book added'
       ) {
         setInfo(res.data.msg);
-        loadUserBooks();
+        await loadUserBooks();
         setTimeout(() => {
           clearInfo();
         }, TIMEOUT);
