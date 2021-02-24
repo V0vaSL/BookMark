@@ -45,7 +45,7 @@ const UserState = (props) => {
       },
     };
     try {
-      const res = await axios.post('/auth/login', credentials, config);
+      const res = await axios.post('/api/auth/login', credentials, config);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       clearAlert();
       return true;
@@ -68,7 +68,7 @@ const UserState = (props) => {
       },
     };
     try {
-      const res = await axios.post('/auth/register', credentials, config);
+      const res = await axios.post('/api/auth/register', credentials, config);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       clearAlert();
       return true;
@@ -99,7 +99,7 @@ const UserState = (props) => {
       },
     };
     try {
-      let result = await axios.get('/books/get', credentials, config);
+      let result = await axios.get('/api/books/get', credentials, config);
       dispatch({ type: GET_USER_BOOKS, payload: result.data });
     } catch (err) {
       clearLoading();
@@ -142,7 +142,7 @@ const UserState = (props) => {
       }
 
       let res = await axios.post(
-        '/books/add',
+        '/api/books/add',
         {
           readingList,
           bookId,
@@ -194,7 +194,7 @@ const UserState = (props) => {
     };
     try {
       let res = await axios.post(
-        '/books/remove',
+        '/api/books/remove',
         { readingList, bookId },
         config
       );

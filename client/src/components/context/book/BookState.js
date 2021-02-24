@@ -37,7 +37,7 @@ const BookState = (props) => {
   const getBooks = async (query) => {
     try {
       setLoading();
-      let result = await axios.get(`/api/${query}`);
+      let result = await axios.get(`/api/query/${query}`);
       clearLoading();
       dispatch({ type: GET_BOOKS, payload: result.data });
     } catch (err) {
