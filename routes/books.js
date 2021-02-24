@@ -1,7 +1,7 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
-const { dataBase } = require('../../config/db');
+const { dataBase } = require('../config/db');
 const auth = require('../middleware/auth');
 
 const MAX_NUM_OF_BOOKS = 6;

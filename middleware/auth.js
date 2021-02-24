@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const express = require('express');
 
 // Verify user token to allow access
 module.exports = function (req, res, next) {

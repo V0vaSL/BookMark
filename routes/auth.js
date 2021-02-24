@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
-const { dataBase } = require('../../config/db');
+const { dataBase } = require('../config/db');
 
 // @route     POST auth/register
 // @desc      Register a user
