@@ -73,7 +73,7 @@ const UserState = (props) => {
       clearAlert();
       return true;
     } catch (err) {
-      setAlert(err.response.data.msg);
+      setAlert(err.response.data.errors);
       dispatch({ type: REGISTER_FAIL });
       setTimeout(() => {
         clearAlert();

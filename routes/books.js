@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 const MAX_NUM_OF_BOOKS = 6;
 
-// @route Get
+// @route GET
 // @desc  get user's book
 // @access private
 
@@ -47,7 +47,7 @@ router.post(
 
     const db = dataBase();
     try {
-      //Check if user has more than 6 books
+      //Check if user has more than max number of books
       let sql = `SELECT numOfBooks FROM users WHERE email='${req.user.email}'`;
       let result = await db.query(sql);
       let bookCount = result[0].numOfBooks;

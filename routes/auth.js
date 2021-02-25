@@ -26,7 +26,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.error('validation error');
-      return res.status(500).json({ errors: errors.array() });
+      return res.status(500).json({ errors: errors.array()[0].msg });
     }
 
     let { firstName, lastName, email, password } = req.body;
