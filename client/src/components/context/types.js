@@ -4,8 +4,6 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const ADD_TO_LIST = 'ADD_TO_LIST';
-export const REMOVE_FROM_LIST = 'REMOVE_FROM_LIST';
 export const GET_USER_BOOKS = 'GET_USER_BOOKS';
 //Alert Context
 export const SET_ALERT = 'SET_ALERT';

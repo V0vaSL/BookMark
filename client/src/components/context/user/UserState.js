@@ -4,7 +4,6 @@ import UserContext from './UserContext';
 import UserReducer from './UserReducer';
 import AlertContext from '../alert/AlertContext';
 import setAuthToken from '../../utils/setAuthToken';
-import BookContext from '../book/BookContext';
 
 import {
   LOGIN_SUCCESS,
@@ -12,7 +11,6 @@ import {
   LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  REMOVE_FROM_LIST,
   GET_USER_BOOKS,
 } from '../types';
 
@@ -31,9 +29,11 @@ const UserState = (props) => {
   const [state, dispatch] = useReducer(UserReducer, initialState);
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert, setInfo, clearInfo } = alertContext;
-  const bookContext = useContext(BookContext);
-  const { setLoading, clearLoading } = bookContext;
 
+  const scrollToTop = () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  };
   /* -- Actions -- */
 
   // ----  Login  ----
@@ -102,7 +102,6 @@ const UserState = (props) => {
       let result = await axios.get('/api/books/get', credentials, config);
       dispatch({ type: GET_USER_BOOKS, payload: result.data });
     } catch (err) {
-      clearLoading();
       setAlert(err.response.data.msg);
       setTimeout(() => {
         clearAlert();
@@ -158,10 +157,12 @@ const UserState = (props) => {
         clearInfo();
       }, TIMEOUT);
       setInfo(res.data.msg);
+      scrollToTop();
       clearAlert();
       return true;
     } catch (err) {
       setAlert(err.response.data.msg);
+      scrollToTop();
       setTimeout(() => {
         clearAlert();
       }, TIMEOUT);
@@ -185,14 +186,16 @@ const UserState = (props) => {
         { readingList, bookId },
         config
       );
-      dispatch({ type: REMOVE_FROM_LIST, payload: { readingList, bookId } });
+      await loadUserBooks();
       setInfo(res.data.msg);
+      scrollToTop();
       setTimeout(() => {
         clearInfo();
       }, TIMEOUT);
       return true;
     } catch (err) {
       setAlert(err.response.data.msg);
+      scrollToTop();
       setTimeout(() => {
         clearAlert();
       }, TIMEOUT);

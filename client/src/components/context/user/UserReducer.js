@@ -5,7 +5,6 @@ import {
   LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  REMOVE_FROM_LIST,
   GET_USER_BOOKS,
 } from '../types';
 
@@ -66,11 +65,6 @@ export default (state, action) => {
         readingList: readingB,
         completedList: completedB,
       };
-    case REMOVE_FROM_LIST:
-      let remList = state[action.payload.readingList].filter(
-        (book) => book.bookId !== action.payload.bookId
-      );
-      return { ...state, [action.payload.readingList]: remList };
     default:
       return state;
   }

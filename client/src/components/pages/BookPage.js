@@ -55,24 +55,24 @@ const BookPage = () => {
           <h1>{title ? title : 'N/A'}</h1>
           <br />
           <p>
-            <strong>Authors: </strong> {authors ? authors : 'N/A'}{' '}
+            <strong>Author : </strong> {authors ? authors : 'N/A'}{' '}
           </p>
           <p>
-            <strong>Publisher: </strong> {publisher ? publisher : 'N/A'}
+            <strong>Publisher : </strong> {publisher ? publisher : 'N/A'}
           </p>
           <p>
-            <strong>Published: </strong>
+            <strong>Published : </strong>
 
             {publishedDate ? publishedDate.substring(0, 4) : 'N/A'}
           </p>
           <p>
-            <strong>Pages: </strong> {pageCount ? pageCount : 'N/A'}
+            <strong>Pages : </strong> {pageCount ? pageCount : 'N/A'}
           </p>
           <p>
-            <strong>Categories: </strong> {categories ? categories : 'N/A'}
+            <strong>Categories : </strong> {categories ? categories : 'N/A'}
           </p>
           <p>
-            <strong>Rating: </strong> {averageRating ? averageRating : 'N/A'}
+            <strong>Rating : </strong> {averageRating ? averageRating : 'N/A'}
           </p>
         </div>
       </div>
