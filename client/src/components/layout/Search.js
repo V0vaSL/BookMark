@@ -33,6 +33,7 @@ const Search = () => {
           type='text'
           placeholder='Search for a book/author in English.'
           className='search-field'
+          autoComplete='on'
         />
         <div className='btns'>
           <input

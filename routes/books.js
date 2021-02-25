@@ -84,7 +84,11 @@ router.post(
         '${req.body.authors.join(',')}',
         '${req.body.publisher ? req.body.publisher : null}',
         '${req.body.publishedDate ? req.body.publishedDate : null}',
-        "${req.body.description ? req.body.description : null}",
+        '${
+          req.body.description
+            ? req.body.description.replace(/["']/g, '')
+            : null
+        }',
         ${req.body.pageCount ? req.body.pageCount : null},
         '${req.body.categories ? req.body.categories.join(',') : null}',
         ${req.body.averageRating ? req.body.averageRating : null},

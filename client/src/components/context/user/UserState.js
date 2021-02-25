@@ -136,10 +136,6 @@ const UserState = (props) => {
         averageRating,
       } = book;
 
-      if (description[0] === '"' || description[0] === "'") {
-        description.substring(1, description.legnth - 1);
-      }
-
       let res = await axios.post(
         '/api/books/add',
         {
@@ -157,11 +153,11 @@ const UserState = (props) => {
         },
         config
       );
-      setInfo(res.data.msg);
       await loadUserBooks();
       setTimeout(() => {
         clearInfo();
       }, TIMEOUT);
+      setInfo(res.data.msg);
       clearAlert();
       return true;
     } catch (err) {
