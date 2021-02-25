@@ -19,6 +19,13 @@ const Register = () => {
       e.target.password1.value !== '' &&
       e.target.password2.value !== ''
     ) {
+      if (e.target.password1.value !== e.target.password2.value) {
+        setAlert("Passwords don't match.");
+        setTimeout(() => {
+          clearAlert();
+        }, 5000);
+        return;
+      }
       if (
         await register({
           firstName: e.target.firstName.value,
