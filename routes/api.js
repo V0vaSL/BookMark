@@ -13,7 +13,6 @@ router.get('/:searchText', async (req, res) => {
     );
     res.status(200).json(results.data.items);
   } catch (err) {
-    console.error(err.message);
     return res.status(500).json({ msg: 'Server Error' });
   }
 });

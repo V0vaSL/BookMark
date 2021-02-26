@@ -25,8 +25,7 @@ router.post(
     //Check for errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error('validation error');
-      return res.status(500).json({ errors: errors.array()[0].msg });
+      return res.status(500).json({ msg: errors.array()[0].msg });
     }
 
     let { firstName, lastName, email, password } = req.body;
@@ -61,7 +60,6 @@ router.post(
         },
         (err, token) => {
           if (err) {
-            console.log('jwt error');
             throw err;
           } else {
             res.status(200).json({ token, email, firstName, lastName });
@@ -69,7 +67,6 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
       return res.status(500).json({ msg: 'Server Error' });
     } finally {
       db.close();
@@ -90,7 +87,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0] });
     }
 
     const { email, password } = req.body;
@@ -133,7 +130,6 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
       res.status(500).json({ msg: 'Server Error' });
     } finally {
       db.close();

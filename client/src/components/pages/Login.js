@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../context/user/UserContext';
 import AlertContext from '../context/alert/AlertContext';
 
-const Login = (props) => {
+const Login = () => {
   const userContext = useContext(UserContext);
   const { login } = userContext;
   const alertContext = useContext(AlertContext);
@@ -13,6 +13,7 @@ const Login = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (e.target.email.value !== '' && e.target.password.value !== '') {
+      //Login user
       if (
         await login({
           email: e.target.email.value,

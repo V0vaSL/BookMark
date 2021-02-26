@@ -17,7 +17,6 @@ router.get('/get', auth, async (req, res) => {
     let data = await db.query(sql);
     return res.status(200).json({ books: data });
   } catch (err) {
-    console.error(err.message);
     return res.status(500).json({ msg: 'Server Error' });
   } finally {
     db.close();
@@ -41,7 +40,6 @@ router.post(
     //Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error(errors.array()[0].msg);
       return res.status(500).json({ msg: errors.array()[0].msg });
     }
 
@@ -142,7 +140,6 @@ router.post(
         }
       }
     } catch (err) {
-      console.error(err.message);
       return res.status(500).json({ msg: 'Server Error' });
     } finally {
       db.close();
@@ -165,7 +162,6 @@ router.post(
     //Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error(errors.array());
       return res.status(500).json({ msg: errors.array()[0].msg });
     }
 
@@ -196,7 +192,6 @@ router.post(
         return res.status(403).json({ msg: 'Book not found' });
       }
     } catch (err) {
-      console.error(err.message);
       return res.status(500).json({ msg: 'Server Error' });
     } finally {
       db.close();

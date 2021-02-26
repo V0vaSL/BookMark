@@ -12,6 +12,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    //Check that all fields have values
     if (
       e.target.firstName.value !== '' &&
       e.target.lastName.value !== '' &&
@@ -26,6 +27,7 @@ const Register = () => {
         }, 5000);
         return;
       }
+      //Register user
       if (
         await register({
           firstName: e.target.firstName.value,
