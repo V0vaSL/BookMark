@@ -17,7 +17,7 @@ router.get('/get', auth, async (req, res) => {
     let data = await db.query(sql);
     return res.status(200).json({ books: data });
   } catch (err) {
-    return res.status(500).json({ msg: 'Server Error' });
+    return res.status(500).json({ msg: 'Server Error.' });
   } finally {
     db.close();
   }
@@ -34,7 +34,7 @@ router.post(
     check('bookId', 'Book id is required.').not().isEmpty(),
     check('title', 'Book title is required.').not().isEmpty(),
     check('authors', 'Book authors are required.').not().isEmpty(),
-    check('readingList', 'readingList is required.').not().isEmpty(),
+    check('readingList', 'Reading list is required.').not().isEmpty(),
   ],
   async (req, res) => {
     //Validation
@@ -58,15 +58,19 @@ router.post(
             //if in the same list as we try to add, return error
             return res
               .status(403)
-              .json({ msg: 'Book already in that reading list' });
+              .json({ msg: 'The book is already in this list.' });
           } else {
             //if different list update the row in reading table
             sql = `UPDATE reading SET readingList = '${req.body.readingList}' WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
             await db.query(sql);
-            return res.status(200).json({ msg: 'Reading list updated' });
+            return res.status(200).json({ msg: 'Reading list updated.' });
           }
         } else {
-          return res.status(403).json({ msg: 'No more books allowed' });
+          return res
+            .status(403)
+            .json({
+              msg: 'Maximum number of books reached. No more books allowed.',
+            });
         }
       }
 
@@ -105,7 +109,7 @@ router.post(
           req.user.email
         }'`;
         await db.query(sql);
-        return res.status(200).json({ msg: 'Book added' });
+        return res.status(200).json({ msg: 'Book added.' });
       } else {
         //check if the user has it in one of his reading lists
         sql = `SELECT bookId,readingList FROM reading WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
@@ -115,12 +119,12 @@ router.post(
             //if in the same list as we try to add, return error
             return res
               .status(403)
-              .json({ msg: 'Book already in that reading list' });
+              .json({ msg: 'The book is already in this list.' });
           } else {
             //if different list update the row in reading table
             sql = `UPDATE reading SET readingList = '${req.body.readingList}' WHERE bookId='${req.body.bookId}' and email='${req.user.email}'`;
             await db.query(sql);
-            return res.status(200).json({ msg: 'Reading list updated' });
+            return res.status(200).json({ msg: 'Reading list updated.' });
           }
         } else {
           // Add the book and the user to the reading table and update numOfBooks of user
@@ -136,11 +140,11 @@ router.post(
             req.user.email
           }'`;
           await db.query(sql);
-          return res.status(200).json({ msg: 'Books added' });
+          return res.status(200).json({ msg: 'Books added.' });
         }
       }
     } catch (err) {
-      return res.status(500).json({ msg: 'Server Error' });
+      return res.status(500).json({ msg: 'Server Error.' });
     } finally {
       db.close();
     }
@@ -187,12 +191,12 @@ router.post(
           sql = `DELETE FROM books WHERE bookId='${req.body.bookId}'`;
           await db.query(sql);
         }
-        return res.status(200).json({ msg: 'Book deleted' });
+        return res.status(200).json({ msg: 'Book deleted.' });
       } else {
-        return res.status(403).json({ msg: 'Book not found' });
+        return res.status(403).json({ msg: 'Book not found.' });
       }
     } catch (err) {
-      return res.status(500).json({ msg: 'Server Error' });
+      return res.status(500).json({ msg: 'Server Error.' });
     } finally {
       db.close();
     }

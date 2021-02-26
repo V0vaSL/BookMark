@@ -18,7 +18,7 @@ router.post(
     check('email', 'Email is required!').isEmail(),
     check(
       'password',
-      'Please enter a password with 6 or more characters'
+      'Please enter a password with at least 6 characters.'
     ).isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -37,7 +37,7 @@ router.post(
       if (user.length !== 0) {
         return res
           .status(400)
-          .json({ msg: 'User with this email exists already.' });
+          .json({ msg: 'A user already exists with this email.' });
       }
       // Hashing password and adding user id.
       const salt = await bcrypt.genSalt(10);
@@ -67,7 +67,7 @@ router.post(
         }
       );
     } catch (err) {
-      return res.status(500).json({ msg: 'Server Error' });
+      return res.status(500).json({ msg: 'Server Error.' });
     } finally {
       db.close();
     }
@@ -81,8 +81,8 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists(),
+    check('email', 'Please include a valid email.').isEmail(),
+    check('password', 'Password is required.').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -96,11 +96,11 @@ router.post(
       let sql = `Select email,firstName,lastName,password FROM users WHERE email='${email}'`;
       let user = await db.query(sql);
       if (user.length !== 1) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: 'Invalid credentials.' });
       }
       const isMatched = await bcrypt.compare(password, user[0].password);
       if (!isMatched) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: 'Invalid credentials.' });
       }
 
       const payload = {
@@ -130,7 +130,7 @@ router.post(
         }
       );
     } catch (err) {
-      res.status(500).json({ msg: 'Server Error' });
+      res.status(500).json({ msg: 'Server Error.' });
     } finally {
       db.close();
     }
