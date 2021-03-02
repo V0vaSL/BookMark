@@ -1,4 +1,0 @@
-{
-  "jwtSecret":"SkillerGaming",
-  "mySQLConfig":{"host":"bf6jfi08qhdis2lkufjf-mysql.services.clever-cloud.com","user":"ui8aasqwddwpgevu","password": "T6RqoEoCIh7AD2vFLzx5","database":"bf6jfi08qhdis2lkufjf"}
-}
